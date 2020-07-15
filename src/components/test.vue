@@ -54,26 +54,28 @@ export default {
 
 <style>
 .subject{
-  /* display:inline-block;
-  margin-right: 40px; */
+  /* display:inline-block; */
+  margin-bottom: 3px;
 }
 .subject div {
   display:inline-block;
-  height: 40px;
+  height: 36px;
   margin-right: 10px;
   text-align:center;
-  line-height: 40px;/*让黄色div中的文字内容垂直居中*/
+  line-height: 36px;/*让黄色div中的文字内容垂直居中*/
 }
 
 .inputdiv{
-  width: 40px;
+  width: 36px;
+  border:1px solid #000;
+  /* background-color: bisque; */
   outline: auto;
 }
 .figure{
-  width: 40px;
+  width: 36px;
 }
 .symbol{
-  width: 10px;
+  width: 20px;
 }
 .box{
     background: yellow;

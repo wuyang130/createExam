@@ -2,30 +2,35 @@
   <div id="app" class="app">
     <!-- <img src="./assets/logo.png"> -->
     <div>
-      <el-button @click="test">生成{{len}}</el-button>
-      <el-button @click="createData">生成{{len}}</el-button>
+      <el-button @click="createExam">生成</el-button>
       <el-button @click="print">Start{{date}}</el-button>
     </div>
     <div class="math-exam">
       <el-container style="width:800px;height:auto;border: 1px solid #eee;margin:auto" >
         <el-container>
-          <el-header style="text-align: right; font-size: 12px">
-            <span style="font-size: 20px;">姓名_________</span>
-            <span style="font-size: 20px;">分数_________</span>
-          </el-header>
-
+          <!-- <el-header style="text-align: right; font-size: 12px"> -->
+            <span style="font-size: 20px;">姓名_________</span><span style="font-size: 20px;">分数_________</span>
+          <!-- </el-header> -->
+          <br>
           <!-- <test v-for="item in tableData" :key="item" v-bind:msg="item"></test> -->
         </el-container>
       </el-container>
-      <div class="line"><test v-for="item in tableData1" :key="item" v-bind:msg="item"></test></div>
-      <div class="line"><test v-for="item in tableData2" :key="item" v-bind:msg="item"></test></div>
+      <div style="margin-top:30px">
+        <div class="line"><test v-for="item in tableData1" :key="item" v-bind:msg="item"></test></div>
+        <div class="line line-right"><test v-for="item in tableData2" :key="item" v-bind:msg="item"></test></div>
+      </div>
+      <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+      <div style="margin-top:30px">
+        <div class="line"><test v-for="item in tableData3" :key="item" v-bind:msg="item"></test></div>
+        <div class="line line-right"><test v-for="item in tableData4" :key="item" v-bind:msg="item"></test></div>
+      </div>
     </div>
 
   </div>
 </template>
 
 <script>
-import test from './test.vue'
+import test from './components/test.vue'
 export default {
   components: {
     'test': test,
@@ -38,14 +43,22 @@ export default {
     return {
       tableData1: [],
       tableData2: [],
+      tableData3: [],
+      tableData4: [],
       len:tableData1.length,
       date:(new Date()).toLocaleDateString()
     }
   },
   methods: {
-    test(){
-      console.log(this._createItems(99,25,this.tableData1))
-      console.log(this._createItems(99,25,this.tableData2))
+    createExam(){
+      console.log(this._createItems(99,15,this.tableData1))
+      console.log(this._createItems(99,15,this.tableData2))
+      console.log(this._createItems(99,10,this.tableData3))
+      console.log(this._createItems(99,10,this.tableData4))
+      this._hideTable(this.tableData1)
+      this._hideTable(this.tableData2)
+      this._hideTable(this.tableData3)
+      this._hideTable(this.tableData4)
     },
     startHacking () {
       this.$notify({
@@ -54,6 +67,26 @@ export default {
         message: 'We\'ve laid the ground work for you. It\'s time for you to build something epic!',
         duration: 5000
       })
+    },
+    _hideTable(table){
+      for(var i=0;i<table.length;i++){
+        for(var j=0;j<table[i].length;j++){
+          if(table[i][j] == '-' || table[i][j] == '+'){
+
+          }else if(table[i][j] == '='){
+
+          }else{
+            if(this._randomNum(0, 7) == 0){
+              // table[i][j] = '___';
+              table[i][j] = '?';
+              break;
+            }
+          }
+          if(j == table[i].length - 1){
+            table[i][j] = '?';
+          }
+        }
+      }
     },
     createData(){
       const item = [
@@ -67,28 +100,33 @@ export default {
       for(let i = 0;i<sum;i++){
         var list = this._createItem(range)
         var v = this._compute(list)
-        
-        if(v > range/2){
-          if(this._randomNum(0,1) == 0){
-            const num3 = this._randomNum(v)
-            list.push("-")
-            list.push(num3)
-          }else{
-            const num3 = this._randomNum(range - v)
-            list.push("+")
-            list.push(num3)
-          }
+
+        if(this._randomNum(0,4) == 0){
+
         }else{
-          if(this._randomNum(0,1) == 0){
-            const num3 = this._randomNum(range - v)
-            list.push("+")
-            list.push(num3)
+          if(v > range/2){
+            if(this._randomNum(0,1) == 0){
+              const num3 = this._randomNum(v)
+              list.push("-")
+              list.push(num3)
+            }else{
+              const num3 = this._randomNum(range - v)
+              list.push("+")
+              list.push(num3)
+            }
           }else{
-            const num3 = this._randomNum(v)
-            list.push("-")
-            list.push(num3)
+            if(this._randomNum(0,1) == 0){
+              const num3 = this._randomNum(range - v)
+              list.push("+")
+              list.push(num3)
+            }else{
+              const num3 = this._randomNum(v)
+              list.push("-")
+              list.push(num3)
+            }
           }
         }
+        
         tableData.push(this._computeAll(list))
       }
       return tableData
@@ -224,6 +262,9 @@ export default {
 }
 .line {
   display:inline-block;
-  margin-right: 60px;
+  margin-right: 40px;
+}
+.line-right {
+  margin-right: 0px;
 }
 </style>
